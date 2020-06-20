@@ -14,27 +14,65 @@ paths:
       summary: プロフィール取得API
       tags:
         - user
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
       operationId: get-users-me
       parameters: []
+      description: 自分のプロフィール情報を取得する
     put:
       summary: 会員登録API
       tags:
         - user
       responses: {}
       operationId: put-users-me
+      description: 会員登録を行う
     post:
       summary: プロフィール更新API
       tags:
         - user
       responses: {}
       operationId: post-users-me
+      description: 自分のプロフィール情報を更新する
     delete:
       summary: 退会API
       tags:
         - user
       responses: {}
       operationId: delete-users-me
+      description: 退会処理を行う
+  '/qa/{id}':
+    get:
+      summary: よくある質問取得API
+      tags:
+        - qa
+        - user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/QA'
+              examples:
+                example-1: {}
+      operationId: get-qa
+      description: よくある質問を取得する
+      security:
+        - Authorization: []
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
 components:
   schemas:
     User:
@@ -196,6 +234,44 @@ components:
             実装：https://teratail.com/questions/189136
           items:
             $ref: ''
+    QA:
+      title: QA
+      type: object
+      description: QA Model
+      x-tags:
+        - qa
+        - model
+      properties:
+        id:
+          type: number
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        title:
+          type: string
+          description: タイトル
+        body:
+          type: string
+          description: リッチテキストエディターのhtmlが入ってる
+        sort_no:
+          type: number
+          description: ソート順
+        category:
+          type: number
+          description: |-
+            NULL: その他
+            ※ マスタ管理するか悩ましい
+      required:
+        - id
+        - created_at
+        - updated_at
+        - title
+        - body
+        - sort_no
+        - category
   securitySchemes:
     Authorization:
       type: http
