@@ -198,7 +198,8 @@ paths:
         required: true
     get:
       summary: お知らせ取得API
-      tags: []
+      tags:
+        - notification
       responses:
         '200':
           description: OK
@@ -224,6 +225,8 @@ paths:
               required:
                 - email
       security: []
+      tags:
+        - password_reset
     parameters: []
   /user/files:
     put:
@@ -256,6 +259,8 @@ paths:
                   format: binary
         description: ''
       parameters: []
+      tags:
+        - file
   '/user/messages/{company_id}':
     parameters:
       - schema:
@@ -265,7 +270,8 @@ paths:
         required: true
     get:
       summary: メッセージ取得API
-      tags: []
+      tags:
+        - message
       responses:
         '200':
           description: OK
@@ -295,7 +301,8 @@ paths:
         required: true
     get:
       summary: お気に入り案件取得API
-      tags: []
+      tags:
+        - project
       responses:
         '200':
           description: OK
@@ -333,6 +340,8 @@ paths:
         '200':
           description: OK
       description: 案件の情報更新通知の登録ができる
+      tags:
+        - project
     delete:
       summary: 案件情報更新通知削除API
       operationId: delete-user-projects-project_id-subscribe
@@ -349,7 +358,8 @@ paths:
         required: true
     get:
       summary: 案件検索API
-      tags: []
+      tags:
+        - project
       responses:
         '200':
           description: OK
@@ -364,7 +374,8 @@ paths:
         required: true
     get:
       summary: お気に入り企業取得API
-      tags: []
+      tags:
+        - company
       responses:
         '200':
           description: OK
@@ -398,6 +409,8 @@ paths:
         '200':
           description: OK
       description: 企業の情報更新通知を登録する
+      tags:
+        - company
     delete:
       summary: 案件情報更新通知削除API
       operationId: delete-user-companies-company_id-subscribe
@@ -414,7 +427,8 @@ paths:
         required: true
     get:
       summary: 記事取得API
-      tags: []
+      tags:
+        - article
       responses:
         '200':
           description: OK
@@ -439,6 +453,8 @@ paths:
         '201':
           description: Created
       description: 検索条件を登録する
+      tags:
+        - search_option
   '/user/search_options/{search_option_id}':
     parameters:
       - schema:
@@ -448,7 +464,8 @@ paths:
         required: true
     get:
       summary: 検索条件取得API
-      tags: []
+      tags:
+        - search_option
       responses:
         '200':
           description: OK
@@ -487,10 +504,13 @@ paths:
         '201':
           description: Created
       description: 案件への実績証明書の発行依頼をする
+      tags:
+        - certificate
   /user/settings/notifications:
     get:
       summary: 通知設定取得API
-      tags: []
+      tags:
+        - setting
       responses:
         '200':
           description: OK
@@ -506,7 +526,8 @@ paths:
   /user/inquiries:
     get:
       summary: 問い合わせ取得API
-      tags: []
+      tags:
+        - inquiry
       responses:
         '200':
           description: OK
@@ -529,7 +550,6 @@ components:
           todo: あとでやる
       description: User Model
       x-tags:
-        - user
         - model
       properties:
         id:
@@ -685,7 +705,6 @@ components:
       type: object
       description: QA Model
       x-tags:
-        - qa
         - model
       properties:
         id:
@@ -751,7 +770,6 @@ components:
         - updated_at
       description: File Model
       x-tags:
-        - file
         - model
     Adress:
       title: Adress
@@ -770,6 +788,8 @@ components:
           type: string
           description: 市区町村名
       description: 住所コード
+      x-tags:
+        - model
     Occupation:
       title: Occupation
       type: object
@@ -794,6 +814,8 @@ components:
         - id
         - name
         - sort_order
+      x-tags:
+        - model
   securitySchemes:
     Authorization:
       type: http
