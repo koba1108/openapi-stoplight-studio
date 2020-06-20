@@ -2,8 +2,12 @@ openapi: 3.0.0
 info:
   title: essence
   version: '1.0'
+  description: This is API Document Sample.
+  contact:
+    name: ykoba
 servers:
   - url: 'http://localhost:3000'
+    description: local
 paths:
   /users/me:
     get:
@@ -12,6 +16,7 @@ paths:
         - user
       responses: {}
       operationId: get-users-me
+      parameters: []
     put:
       summary: 会員登録API
       tags:
@@ -32,3 +37,9 @@ paths:
       operationId: delete-users-me
 components:
   schemas: {}
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+security:
+  - Authorization: []
