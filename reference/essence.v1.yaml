@@ -36,7 +36,166 @@ paths:
       responses: {}
       operationId: delete-users-me
 components:
-  schemas: {}
+  schemas:
+    User:
+      title: User
+      type: object
+      x-examples:
+        example:
+          todo: あとでやる
+      description: User Model
+      x-tags:
+        - user
+        - model
+      properties:
+        id:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        nickname:
+          type: string
+          description: SNS連携時には、その名前が入る
+        first_name:
+          type: string
+        last_name:
+          type: string
+        face_photo_id:
+          type: string
+        birthday:
+          type: string
+          format: date-time
+          description: 形式：1985-11-08
+        phone_number:
+          type: string
+        gender:
+          type: number
+          description: |-
+            1. 男性
+            2. 女性
+            ※ LGBTの扱いはどうするか？
+        post_code:
+          type: string
+          description: |-
+            郵便番号（XXX-XXXX）
+            参考：https://www.post.japanpost.jp/zipcode/download.html
+        prefecture:
+          type: number
+          description: 都道府県コード（1 - 47）
+        area:
+          type: number
+          description: |-
+            市区町村コード
+            参考：https://www.soumu.go.jp/main_content/000632830.pdf
+        address:
+          type: string
+          description: 市区町村から後ろの住所
+        employment_status:
+          type: number
+          description: |-
+            1. 現職中
+            2. 離職中
+            3. 就業経験なし
+            NULL: 未入力
+        current_company_name:
+          type: string
+          description: 'NULL: 未入力'
+        job_change_count:
+          type: number
+          description: 'NULL: 未入力'
+        final_education:
+          description: |-
+            1. 中校卒
+            2. 高校卒
+            3. 短大卒
+            4. 専門学校卒
+            5. 大学卒
+            6. 大学院卒
+            99. その他
+            NULL: 未入力
+          type: number
+        school_name:
+          type: string
+          description: 'NULL: 未入力'
+        marital_status:
+          description: |-
+            1. 未婚
+            2. 既婚
+            NULL: 未入力
+          type: number
+        job_change_motivation:
+          description: |-
+            1. すぐ転職したい
+            2. 3ヶ月後考えている
+            3. 半年以内に考えている
+            4. 1年以内に考えている
+            5. 良いオファーがあれば検討
+            6. 今は考えていない
+          type: number
+        side_job_motivation:
+          type: number
+        introduction_text:
+          type: string
+        english_skills:
+          description: |-
+            1. なし
+            2. 初級（簡単な挨拶、辞書を使っての読み書き）
+            3. 中級（日常会話、簡単な読み書き可能）
+            4. 上級（ビジネスレベルの会話、読み書き）
+            5. ネイティブレベル
+            NULL: 未指定
+          type: number
+        toeic:
+          type: number
+          description: |-
+            1. なし
+            2. 〜215点
+            3. 220点〜465点
+            4. 470点〜725点
+            5. 730点〜855点
+            6. 860点〜
+            NULL: 未入力
+
+            参考：https://bit.ly/2XqqNdR
+        toefl:
+          type: number
+          description: |-
+            1. なし
+            2. 60点未満
+            3. 60点〜79点
+            4. 80点～99点
+            5. 100点～120点
+            NULL: 未入力
+
+            参考：https://progrit-media.jp/84
+        experienced_occupation:
+          type: array
+          description: |-
+            JSON型に職種IDの配列を入れる
+            実装：https://teratail.com/questions/189136
+          items:
+            $ref: ''
+        desired_occupations:
+          type: array
+          description: |-
+            JSON型に職種IDの配列を入れる
+            実装：https://teratail.com/questions/189136
+          items:
+            $ref: ''
+        current_annual_income:
+          type: number
+        desired_annual_income:
+          type: number
+        desired_city_codes:
+          type: array
+          description: |-
+            JSON型に市区町村コードの配列を入れる
+            実装：https://teratail.com/questions/189136
+          items:
+            $ref: ''
   securitySchemes:
     Authorization:
       type: http
