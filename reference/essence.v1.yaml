@@ -9,7 +9,7 @@ servers:
   - url: 'http://localhost:3000'
     description: local
 paths:
-  /users/me:
+  user/me:
     get:
       summary: プロフィール取得API
       tags:
@@ -29,29 +29,35 @@ paths:
       summary: 会員登録API
       tags:
         - user
-      responses: {}
+      responses:
+        '200':
+          description: OK
       operationId: put-users-me
       description: 会員登録を行う
     post:
       summary: プロフィール更新API
       tags:
         - user
-      responses: {}
+      responses:
+        '200':
+          description: OK
       operationId: post-users-me
       description: 自分のプロフィール情報を更新する
     delete:
       summary: 退会API
       tags:
         - user
-      responses: {}
+      responses:
+        '200':
+          description: OK
       operationId: delete-users-me
       description: 退会処理を行う
-  '/qa/{id}':
+    parameters: []
+  'user/qa/{qa_id}':
     get:
       summary: よくある質問取得API
       tags:
         - qa
-        - user
       responses:
         '200':
           description: OK
@@ -61,18 +67,458 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/QA'
-              examples:
-                example-1: {}
+              examples: {}
       operationId: get-qa
       description: よくある質問を取得する
-      security:
-        - Authorization: []
     parameters:
       - schema:
           type: string
-        name: id
+        name: qa_id
         in: path
         required: true
+  user/login:
+    post:
+      summary: ログインAPI
+      operationId: post-login
+      responses:
+        '200':
+          description: OK
+      description: ログインを行う
+      tags:
+        - login
+      security: []
+    parameters: []
+  user/logout:
+    post:
+      summary: ログアウトAPI
+      operationId: post-logout
+      responses:
+        '200':
+          description: OK
+      description: ログアウトを行う
+      tags:
+        - logout
+    parameters: []
+  'user/offers/{offer_id}':
+    get:
+      summary: オファー取得API
+      tags:
+        - offer
+      responses:
+        '200':
+          description: OK
+      operationId: get-offers
+      description: |-
+        企業から受けたオファーを取得する
+
+        下記で条件指定できる
+        1. ID指定（URLパスで指定）
+        2. 応募済
+        3. 見送り済
+        4. マッチング済
+      parameters:
+        - schema:
+            type: number
+          in: query
+          name: status
+          description: |-
+            1. 回答待ち
+            2. マッチング
+            3. お見送り
+        - schema:
+            type: number
+          in: query
+          name: limit
+          description: 取得件数
+        - schema:
+            type: number
+          in: query
+          name: offset
+          description: 取得開始位置
+    parameters:
+      - schema:
+          type: string
+        name: offer_id
+        in: path
+        required: true
+  'user/offers/{project_id}/apply':
+    parameters:
+      - schema:
+          type: string
+        name: project_id
+        in: path
+        required: true
+    put:
+      summary: 応募API
+      operationId: put-offers-project_id-apply
+      responses:
+        '200':
+          description: OK
+      description: 案件へ応募する
+      tags:
+        - offer
+  'user/offers/{project_id}/skip':
+    parameters:
+      - schema:
+          type: string
+        name: project_id
+        in: path
+        required: true
+    post:
+      summary: オファーお見送りAPI
+      operationId: post-offers-project_id-skip
+      responses:
+        '200':
+          description: OK
+      description: 企業から受けたオファーを見送る
+      tags:
+        - offer
+  'user/offers/{project_id}/accept':
+    parameters:
+      - schema:
+          type: string
+        name: project_id
+        in: path
+        required: true
+    post:
+      summary: オファー受け入れAPI
+      operationId: post-offers-project_id-accept
+      responses:
+        '200':
+          description: OK
+      description: 企業から受けたオファーを受け入れる
+      tags:
+        - offer
+  'user/notifications/{notification_id}':
+    parameters:
+      - schema:
+          type: string
+        name: notification_id
+        in: path
+        required: true
+    get:
+      summary: お知らせ取得API
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: get-notifications
+      description: 管理者からのお知らせを取得する
+  /user/password_reset:
+    post:
+      summary: ''
+      operationId: post-users-password_reset
+      responses:
+        '200':
+          description: OK
+      description: パスワードリセット用のEメールを送信する
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+              required:
+                - email
+      security: []
+    parameters: []
+  /user/files:
+    put:
+      summary: ファイルアップロードAPI
+      operationId: put-user-files
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ''
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+              required: true
+              description: ファイルのURL
+      description: 画像や書類などのファイルをアップロードする
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  description: ファイルデータ
+                  format: binary
+        description: ''
+      parameters: []
+  '/user/messages/{company_id}':
+    parameters:
+      - schema:
+          type: string
+        name: company_id
+        in: path
+        required: true
+    get:
+      summary: メッセージ取得API
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: get-user-messages-company_id
+      description: |-
+        企業とのメッセージを取得する
+
+        「もっと見る」用にページング機能付ける
+    put:
+      summary: メッセージ登録API
+      operationId: put-user-messages-company_id
+      responses:
+        '201':
+          description: Created
+      description: |-
+        企業へメッセージを送信する
+
+
+        更新対象はURLでID指定
+        マッチングしてない企業IDを指定したらValidationエラー
+  '/user/favorites/projects/{project_id}':
+    parameters:
+      - schema:
+          type: string
+        name: project_id
+        in: path
+        required: true
+    get:
+      summary: お気に入り案件取得API
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: get-user-favorites-projects-project_id
+      description: お気に入り案件を取得する
+    put:
+      summary: お気に入り案件登録API
+      operationId: put-user-favorites-projects-project_id
+      responses:
+        '200':
+          description: OK
+      description: お気に入り案件を登録する
+      security:
+        - Authorization: []
+    delete:
+      summary: お気に入り案件削除API
+      operationId: delete-user-favorites-projects-project_id
+      responses:
+        '200':
+          description: OK
+      description: お気に入り案件を削除する
+      security:
+        - Authorization: []
+  '/user/projects/{project_id}/subscribe':
+    parameters:
+      - schema:
+          type: string
+        name: project_id
+        in: path
+        required: true
+    put:
+      summary: 案件情報更新通知登録API
+      operationId: put-user-projects-project_id-subscribe
+      responses:
+        '200':
+          description: OK
+      description: 案件の情報更新通知の登録ができる
+    delete:
+      summary: 案件情報更新通知削除API
+      operationId: delete-user-projects-project_id-subscribe
+      responses:
+        '200':
+          description: OK
+      description: 案件の情報更新通知の削除ができる
+  '/user/projects/{project_id}':
+    parameters:
+      - schema:
+          type: string
+        name: project_id
+        in: path
+        required: true
+    get:
+      summary: 案件検索API
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: get-user-projects-project_id
+      description: 案件を検索する
+  '/user/favorites/companies/{company_id}':
+    parameters:
+      - schema:
+          type: string
+        name: company_id
+        in: path
+        required: true
+    get:
+      summary: お気に入り企業取得API
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: get-user-favorites-companies-company_id
+      description: お気に入り企業を取得する
+    put:
+      summary: お気に入り企業登録API
+      operationId: put-user-favorites-companies-company_id
+      responses:
+        '200':
+          description: OK
+      description: お気に入り企業を登録する
+    delete:
+      summary: お気に入り企業削除API
+      operationId: delete-user-favorites-companies-company_id
+      responses:
+        '200':
+          description: OK
+      description: お気に入り企業を削除する
+  '/user/companies/{company_id}/subscribe':
+    parameters:
+      - schema:
+          type: string
+        name: company_id
+        in: path
+        required: true
+    put:
+      summary: 案件情報更新通知登録API
+      operationId: put-user-companies-company_id-subscribe
+      responses:
+        '200':
+          description: OK
+      description: 企業の情報更新通知を登録する
+    delete:
+      summary: 案件情報更新通知削除API
+      operationId: delete-user-companies-company_id-subscribe
+      responses:
+        '200':
+          description: OK
+      description: 企業の情報更新通知を削除する
+  '/user/articles/{article_id}':
+    parameters:
+      - schema:
+          type: string
+        name: article_id
+        in: path
+        required: true
+    get:
+      summary: 記事取得API
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: get-user-articles-article_id
+      description: |-
+        記事の情報を取得する
+
+        下記で条件指定できる
+        1. ID指定（URLパスで指定）
+        2. カテゴリ
+      parameters:
+        - schema:
+            type: number
+          in: query
+          name: category
+          description: カテゴリ
+  /user/search_options:
+    put:
+      summary: 検索条件登録API
+      operationId: put-user-search_options
+      responses:
+        '201':
+          description: Created
+      description: 検索条件を登録する
+  '/user/search_options/{search_option_id}':
+    parameters:
+      - schema:
+          type: string
+        name: search_option_id
+        in: path
+        required: true
+    get:
+      summary: 検索条件取得API
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: get-user-search_options-search_option_id
+      description: 検索条件を取得する
+    post:
+      summary: 検索条件更新API
+      operationId: post-user-search_options-search_option_id
+      responses:
+        '200':
+          description: OK
+      description: 検索条件を更新する
+      security:
+        - Authorization: []
+      parameters: []
+    delete:
+      summary: 検索条件削除API
+      operationId: delete-user-search_options-search_option_id
+      responses:
+        '200':
+          description: OK
+      description: 検索条件を削除する
+      security:
+        - Authorization: []
+  '/user/projects/{project_id}/certificates':
+    parameters:
+      - schema:
+          type: string
+        name: project_id
+        in: path
+        required: true
+    put:
+      summary: 実績証明書発行依頼API
+      operationId: put-user-projects-project_id-certificates
+      responses:
+        '201':
+          description: Created
+      description: 案件への実績証明書の発行依頼をする
+  /user/settings/notifications:
+    get:
+      summary: 通知設定取得API
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: get-user-settings-notifications
+      description: 通知設定を取得する
+    post:
+      summary: 通知設定更新API
+      operationId: post-user-settings-notifications
+      responses:
+        '200':
+          description: OK
+      description: 通知設定を変更する
+  /user/inquiries:
+    get:
+      summary: 問い合わせ取得API
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: get-user-inquiries
+      description: 問い合わせを取得する
+    put:
+      summary: 問い合わせ登録API
+      operationId: put-user-inquiries
+      responses:
+        '200':
+          description: OK
+      description: 問い合わせの登録をする
 components:
   schemas:
     User:
@@ -101,8 +547,8 @@ components:
           type: string
         last_name:
           type: string
-        face_photo_id:
-          type: string
+        face_photo:
+          $ref: '#/components/schemas/File'
         birthday:
           type: string
           format: date-time
@@ -215,14 +661,14 @@ components:
             JSON型に職種IDの配列を入れる
             実装：https://teratail.com/questions/189136
           items:
-            $ref: ''
+            $ref: '#/components/schemas/Occupation'
         desired_occupations:
           type: array
           description: |-
             JSON型に職種IDの配列を入れる
             実装：https://teratail.com/questions/189136
           items:
-            $ref: ''
+            $ref: '#/components/schemas/Occupation'
         current_annual_income:
           type: number
         desired_annual_income:
@@ -233,7 +679,7 @@ components:
             JSON型に市区町村コードの配列を入れる
             実装：https://teratail.com/questions/189136
           items:
-            $ref: ''
+            $ref: '#/components/schemas/Adress'
     QA:
       title: QA
       type: object
@@ -272,6 +718,82 @@ components:
         - body
         - sort_no
         - category
+    File:
+      title: File
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        type:
+          type: number
+          description: |-
+            1. 顔写真
+            2. 履歴書
+            3. 職務経歴書
+            ※ 実装時変えるかも
+        original_url:
+          type: string
+          format: uri
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+        - type
+        - original_url
+        - created_at
+        - updated_at
+      description: File Model
+      x-tags:
+        - file
+        - model
+    Adress:
+      title: Adress
+      type: object
+      properties:
+        pref_code:
+          type: number
+          description: 都道府県コード
+        pref_name:
+          type: string
+          description: 都道府県名
+        city_code:
+          type: number
+          description: 市区町村コード
+        city_name:
+          type: string
+          description: 市区町村名
+      description: 住所コード
+    Occupation:
+      title: Occupation
+      type: object
+      description: Occupation Model
+      properties:
+        category_id:
+          type: number
+        category_name:
+          type: string
+        category_sort_order:
+          type: number
+        id:
+          type: number
+        name:
+          type: string
+        sort_order:
+          type: number
+      required:
+        - category_id
+        - category_name
+        - category_sort_order
+        - id
+        - name
+        - sort_order
   securitySchemes:
     Authorization:
       type: http
