@@ -1,0 +1,33 @@
+title: File
+type: object
+properties:
+  id:
+    type: number
+  name:
+    type: string
+  type:
+    type: number
+    description: |-
+      1. 顔写真
+      2. 履歴書
+      3. 職務経歴書
+      ※ 実装時変えるかも
+  original_url:
+    type: string
+    format: uri
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+required:
+  - id
+  - name
+  - type
+  - original_url
+  - created_at
+  - updated_at
+description: File Model
+x-tags:
+  - model

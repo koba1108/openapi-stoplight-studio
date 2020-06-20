@@ -1,0 +1,36 @@
+title: QA
+type: object
+description: QA Model
+x-tags:
+  - model
+properties:
+  id:
+    type: number
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+  title:
+    type: string
+    description: タイトル
+  body:
+    type: string
+    description: リッチテキストエディターのhtmlが入ってる
+  sort_no:
+    type: number
+    description: ソート順
+  category:
+    type: number
+    description: |-
+      NULL: その他
+      ※ マスタ管理するか悩ましい
+required:
+  - id
+  - created_at
+  - updated_at
+  - title
+  - body
+  - sort_no
+  - category

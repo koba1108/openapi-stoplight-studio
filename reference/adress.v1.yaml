@@ -1,0 +1,23 @@
+title: Adress
+type: object
+description: 住所コード
+x-tags:
+  - model
+properties:
+  pref_code:
+    type: number
+    description: 都道府県コード
+  pref_name:
+    type: string
+    description: 都道府県名
+  city_code:
+    type: number
+    description: 市区町村コード
+  city_name:
+    type: string
+    description: 市区町村名
+required:
+  - pref_code
+  - pref_name
+  - city_code
+  - city_name

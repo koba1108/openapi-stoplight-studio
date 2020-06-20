@@ -1,15 +1,19 @@
 openapi: 3.0.0
 info:
-  title: essence
+  title: Essence User API
   version: '1.0'
-  description: This is API Document Sample.
+  description: This is Essence User API Document.
   contact:
     name: ykoba
 servers:
-  - url: 'http://localhost:3000'
+  - url: 'http://localhost:3000/user'
     description: local
+  - description: development
+    url: 'https://api.dev-domain/user'
+  - url: 'https://api.prod-domain/user'
+    description: production
 paths:
-  user/me:
+  /me:
     get:
       summary: プロフィール取得API
       tags:
@@ -21,7 +25,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: ./user.v1.yaml
       operationId: get-users-me
       parameters: []
       description: 自分のプロフィール情報を取得する
@@ -53,7 +57,7 @@ paths:
       operationId: delete-users-me
       description: 退会処理を行う
     parameters: []
-  'user/qa/{qa_id}':
+  '/qa/{qa_id}':
     get:
       summary: よくある質問取得API
       tags:
@@ -66,7 +70,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/QA'
+                  $ref: ./qa.v1.yaml
               examples: {}
       operationId: get-qa
       description: よくある質問を取得する
@@ -76,7 +80,7 @@ paths:
         name: qa_id
         in: path
         required: true
-  user/login:
+  /login:
     post:
       summary: ログインAPI
       operationId: post-login
@@ -88,7 +92,7 @@ paths:
         - login
       security: []
     parameters: []
-  user/logout:
+  /logout:
     post:
       summary: ログアウトAPI
       operationId: post-logout
@@ -99,7 +103,7 @@ paths:
       tags:
         - logout
     parameters: []
-  'user/offers/{offer_id}':
+  '/offers/{offer_id}':
     get:
       summary: オファー取得API
       tags:
@@ -141,7 +145,7 @@ paths:
         name: offer_id
         in: path
         required: true
-  'user/offers/{project_id}/apply':
+  '/offers/{project_id}/apply':
     parameters:
       - schema:
           type: string
@@ -157,7 +161,7 @@ paths:
       description: 案件へ応募する
       tags:
         - offer
-  'user/offers/{project_id}/skip':
+  '/offers/{project_id}/skip':
     parameters:
       - schema:
           type: string
@@ -173,7 +177,7 @@ paths:
       description: 企業から受けたオファーを見送る
       tags:
         - offer
-  'user/offers/{project_id}/accept':
+  '/offers/{project_id}/accept':
     parameters:
       - schema:
           type: string
@@ -189,7 +193,7 @@ paths:
       description: 企業から受けたオファーを受け入れる
       tags:
         - offer
-  'user/notifications/{notification_id}':
+  '/notifications/{notification_id}':
     parameters:
       - schema:
           type: string
@@ -205,7 +209,7 @@ paths:
           description: OK
       operationId: get-notifications
       description: 管理者からのお知らせを取得する
-  /user/password_reset:
+  /password_reset:
     post:
       summary: ''
       operationId: post-users-password_reset
@@ -228,7 +232,7 @@ paths:
       tags:
         - password_reset
     parameters: []
-  /user/files:
+  /files:
     put:
       summary: ファイルアップロードAPI
       operationId: put-user-files
@@ -261,7 +265,8 @@ paths:
       parameters: []
       tags:
         - file
-  '/user/messages/{company_id}':
+    parameters: []
+  '/messages/{company_id}':
     parameters:
       - schema:
           type: string
@@ -292,7 +297,7 @@ paths:
 
         更新対象はURLでID指定
         マッチングしてない企業IDを指定したらValidationエラー
-  '/user/favorites/projects/{project_id}':
+  '/favorites/projects/{project_id}':
     parameters:
       - schema:
           type: string
@@ -317,6 +322,8 @@ paths:
       description: お気に入り案件を登録する
       security:
         - Authorization: []
+      tags:
+        - project
     delete:
       summary: お気に入り案件削除API
       operationId: delete-user-favorites-projects-project_id
@@ -326,7 +333,9 @@ paths:
       description: お気に入り案件を削除する
       security:
         - Authorization: []
-  '/user/projects/{project_id}/subscribe':
+      tags:
+        - project
+  '/projects/{project_id}/subscribe':
     parameters:
       - schema:
           type: string
@@ -349,7 +358,9 @@ paths:
         '200':
           description: OK
       description: 案件の情報更新通知の削除ができる
-  '/user/projects/{project_id}':
+      tags:
+        - project
+  '/projects/{project_id}':
     parameters:
       - schema:
           type: string
@@ -365,7 +376,7 @@ paths:
           description: OK
       operationId: get-user-projects-project_id
       description: 案件を検索する
-  '/user/favorites/companies/{company_id}':
+  '/favorites/companies/{company_id}':
     parameters:
       - schema:
           type: string
@@ -388,6 +399,8 @@ paths:
         '200':
           description: OK
       description: お気に入り企業を登録する
+      tags:
+        - company
     delete:
       summary: お気に入り企業削除API
       operationId: delete-user-favorites-companies-company_id
@@ -395,7 +408,9 @@ paths:
         '200':
           description: OK
       description: お気に入り企業を削除する
-  '/user/companies/{company_id}/subscribe':
+      tags:
+        - company
+  '/companies/{company_id}/subscribe':
     parameters:
       - schema:
           type: string
@@ -418,7 +433,7 @@ paths:
         '200':
           description: OK
       description: 企業の情報更新通知を削除する
-  '/user/articles/{article_id}':
+  '/articles/{article_id}':
     parameters:
       - schema:
           type: string
@@ -445,7 +460,7 @@ paths:
           in: query
           name: category
           description: カテゴリ
-  /user/search_options:
+  /search_options:
     put:
       summary: 検索条件登録API
       operationId: put-user-search_options
@@ -455,7 +470,8 @@ paths:
       description: 検索条件を登録する
       tags:
         - search_option
-  '/user/search_options/{search_option_id}':
+    parameters: []
+  '/search_options/{search_option_id}':
     parameters:
       - schema:
           type: string
@@ -490,7 +506,7 @@ paths:
       description: 検索条件を削除する
       security:
         - Authorization: []
-  '/user/projects/{project_id}/certificates':
+  '/projects/{project_id}/certificates':
     parameters:
       - schema:
           type: string
@@ -506,7 +522,7 @@ paths:
       description: 案件への実績証明書の発行依頼をする
       tags:
         - certificate
-  /user/settings/notifications:
+  /settings/notifications:
     get:
       summary: 通知設定取得API
       tags:
@@ -523,7 +539,8 @@ paths:
         '200':
           description: OK
       description: 通知設定を変更する
-  /user/inquiries:
+    parameters: []
+  /inquiries:
     get:
       summary: 問い合わせ取得API
       tags:
@@ -531,6 +548,10 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
       operationId: get-user-inquiries
       description: 問い合わせを取得する
     put:
@@ -540,282 +561,9 @@ paths:
         '200':
           description: OK
       description: 問い合わせの登録をする
+    parameters: []
 components:
-  schemas:
-    User:
-      title: User
-      type: object
-      x-examples:
-        example:
-          todo: あとでやる
-      description: User Model
-      x-tags:
-        - model
-      properties:
-        id:
-          type: integer
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-        nickname:
-          type: string
-          description: SNS連携時には、その名前が入る
-        first_name:
-          type: string
-        last_name:
-          type: string
-        face_photo:
-          $ref: '#/components/schemas/File'
-        birthday:
-          type: string
-          format: date-time
-          description: 形式：1985-11-08
-        phone_number:
-          type: string
-        gender:
-          type: number
-          description: |-
-            1. 男性
-            2. 女性
-            ※ LGBTの扱いはどうするか？
-        post_code:
-          type: string
-          description: |-
-            郵便番号（XXX-XXXX）
-            参考：https://www.post.japanpost.jp/zipcode/download.html
-        prefecture:
-          type: number
-          description: 都道府県コード（1 - 47）
-        area:
-          type: number
-          description: |-
-            市区町村コード
-            参考：https://www.soumu.go.jp/main_content/000632830.pdf
-        address:
-          type: string
-          description: 市区町村から後ろの住所
-        employment_status:
-          type: number
-          description: |-
-            1. 現職中
-            2. 離職中
-            3. 就業経験なし
-            NULL: 未入力
-        current_company_name:
-          type: string
-          description: 'NULL: 未入力'
-        job_change_count:
-          type: number
-          description: 'NULL: 未入力'
-        final_education:
-          description: |-
-            1. 中校卒
-            2. 高校卒
-            3. 短大卒
-            4. 専門学校卒
-            5. 大学卒
-            6. 大学院卒
-            99. その他
-            NULL: 未入力
-          type: number
-        school_name:
-          type: string
-          description: 'NULL: 未入力'
-        marital_status:
-          description: |-
-            1. 未婚
-            2. 既婚
-            NULL: 未入力
-          type: number
-        job_change_motivation:
-          description: |-
-            1. すぐ転職したい
-            2. 3ヶ月後考えている
-            3. 半年以内に考えている
-            4. 1年以内に考えている
-            5. 良いオファーがあれば検討
-            6. 今は考えていない
-          type: number
-        side_job_motivation:
-          type: number
-        introduction_text:
-          type: string
-        english_skills:
-          description: |-
-            1. なし
-            2. 初級（簡単な挨拶、辞書を使っての読み書き）
-            3. 中級（日常会話、簡単な読み書き可能）
-            4. 上級（ビジネスレベルの会話、読み書き）
-            5. ネイティブレベル
-            NULL: 未指定
-          type: number
-        toeic:
-          type: number
-          description: |-
-            1. なし
-            2. 〜215点
-            3. 220点〜465点
-            4. 470点〜725点
-            5. 730点〜855点
-            6. 860点〜
-            NULL: 未入力
-
-            参考：https://bit.ly/2XqqNdR
-        toefl:
-          type: number
-          description: |-
-            1. なし
-            2. 60点未満
-            3. 60点〜79点
-            4. 80点～99点
-            5. 100点～120点
-            NULL: 未入力
-
-            参考：https://progrit-media.jp/84
-        experienced_occupation:
-          type: array
-          description: |-
-            JSON型に職種IDの配列を入れる
-            実装：https://teratail.com/questions/189136
-          items:
-            $ref: '#/components/schemas/Occupation'
-        desired_occupations:
-          type: array
-          description: |-
-            JSON型に職種IDの配列を入れる
-            実装：https://teratail.com/questions/189136
-          items:
-            $ref: '#/components/schemas/Occupation'
-        current_annual_income:
-          type: number
-        desired_annual_income:
-          type: number
-        desired_city_codes:
-          type: array
-          description: |-
-            JSON型に市区町村コードの配列を入れる
-            実装：https://teratail.com/questions/189136
-          items:
-            $ref: '#/components/schemas/Adress'
-    QA:
-      title: QA
-      type: object
-      description: QA Model
-      x-tags:
-        - model
-      properties:
-        id:
-          type: number
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-        title:
-          type: string
-          description: タイトル
-        body:
-          type: string
-          description: リッチテキストエディターのhtmlが入ってる
-        sort_no:
-          type: number
-          description: ソート順
-        category:
-          type: number
-          description: |-
-            NULL: その他
-            ※ マスタ管理するか悩ましい
-      required:
-        - id
-        - created_at
-        - updated_at
-        - title
-        - body
-        - sort_no
-        - category
-    File:
-      title: File
-      type: object
-      properties:
-        id:
-          type: number
-        name:
-          type: string
-        type:
-          type: number
-          description: |-
-            1. 顔写真
-            2. 履歴書
-            3. 職務経歴書
-            ※ 実装時変えるかも
-        original_url:
-          type: string
-          format: uri
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-      required:
-        - id
-        - name
-        - type
-        - original_url
-        - created_at
-        - updated_at
-      description: File Model
-      x-tags:
-        - model
-    Adress:
-      title: Adress
-      type: object
-      properties:
-        pref_code:
-          type: number
-          description: 都道府県コード
-        pref_name:
-          type: string
-          description: 都道府県名
-        city_code:
-          type: number
-          description: 市区町村コード
-        city_name:
-          type: string
-          description: 市区町村名
-      description: 住所コード
-      x-tags:
-        - model
-    Occupation:
-      title: Occupation
-      type: object
-      description: Occupation Model
-      properties:
-        category_id:
-          type: number
-        category_name:
-          type: string
-        category_sort_order:
-          type: number
-        id:
-          type: number
-        name:
-          type: string
-        sort_order:
-          type: number
-      required:
-        - category_id
-        - category_name
-        - category_sort_order
-        - id
-        - name
-        - sort_order
-      x-tags:
-        - model
+  schemas: {}
   securitySchemes:
     Authorization:
       type: http
