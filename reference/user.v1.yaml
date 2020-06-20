@@ -155,3 +155,31 @@ properties:
       実装：https://teratail.com/questions/189136
     items:
       $ref: ./adress.v1.yaml
+required:
+  - id
+  - created_at
+  - updated_at
+  - nickname
+  - first_name
+  - last_name
+  - birthday
+  - phone_number
+  - gender
+  - post_code
+  - prefecture
+  - area
+  - address
+  - employment_status
+  - current_company_name
+  - job_change_count
+  - final_education
+  - school_name
+  - marital_status
+  - job_change_motivation
+  - side_job_motivation
+  - introduction_text
+  - english_skills
+  - toeic
+  - toefl
+  - current_annual_income
+  - desired_annual_income
