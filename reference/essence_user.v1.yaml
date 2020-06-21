@@ -242,7 +242,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ''
+                $ref: ./file.v1.yaml
           headers:
             Location:
               schema:
@@ -258,9 +258,9 @@ paths:
               type: object
               properties:
                 file:
-                  type: string
                   description: ファイルデータ
                   format: binary
+                  type: string
         description: ''
       parameters: []
       tags:
@@ -313,14 +313,28 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ./project.v1.yaml
+              examples: {}
       operationId: get-user-favorites-projects-project_id
       description: お気に入り案件を取得する
     put:
       summary: お気に入り案件登録API
       operationId: put-user-favorites-projects-project_id
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  project_id:
+                    type: number
       description: お気に入り案件を登録する
       security:
         - Authorization: []
@@ -330,8 +344,8 @@ paths:
       summary: お気に入り案件削除API
       operationId: delete-user-favorites-projects-project_id
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
       description: お気に入り案件を削除する
       security:
         - Authorization: []
@@ -423,8 +437,15 @@ paths:
       summary: 企業情報更新通知登録API
       operationId: put-user-companies-company_id-subscribe
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  company_id:
+                    type: number
       description: 企業の情報更新通知を登録する
       tags:
         - company
@@ -432,8 +453,8 @@ paths:
       summary: 企業情報更新通知削除API
       operationId: delete-user-companies-company_id-subscribe
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
       description: 企業の情報更新通知を削除する
       tags:
         - company
@@ -451,6 +472,21 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  contents:
+                    type: array
+                    items:
+                      $ref: ./article.v1.yaml
+                  total:
+                    type: number
+                  offset:
+                    type: number
+                  limit:
+                    type: number
       operationId: get-user-articles-article_id
       description: |-
         記事の情報を取得する
@@ -464,6 +500,16 @@ paths:
           in: query
           name: category
           description: カテゴリ
+        - schema:
+            type: number
+          in: query
+          name: limit
+          description: 取得件数
+        - schema:
+            type: number
+          in: query
+          name: offset
+          description: 取得開始位置
   /search_options:
     put:
       summary: 検索条件登録API
@@ -574,6 +620,25 @@ paths:
       tags:
         - inquiry
     parameters: []
+  '/companies/{company_id}':
+    parameters:
+      - schema:
+          type: string
+        name: company_id
+        in: path
+        required: true
+    get:
+      summary: 企業情報取得API
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./company.v1.yaml
+      operationId: get-companies-company_id
+      description: 企業情報を取得する
 components:
   schemas: {}
   securitySchemes:

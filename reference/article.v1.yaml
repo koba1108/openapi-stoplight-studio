@@ -1,0 +1,52 @@
+title: Article
+type: object
+description: 記事
+x-tags:
+  - model
+properties:
+  id:
+    type: number
+  created_at:
+    type: string
+  updated_at:
+    type: string
+    format: date-time
+  created_admin_id:
+    type: number
+  updated_admin_id:
+    type: number
+  title:
+    type: string
+  body:
+    type: string
+    description: リッチテキストエディターのhtmlを突っ込む
+  tags:
+    type: array
+    items:
+      $ref: ./tag.v1.yaml
+  published_start_at:
+    type: string
+    format: date-time
+  published_end_at:
+    type: string
+    format: date-time
+  is_published:
+    type: boolean
+    description: |-
+      FALSE: 下書き
+      TRUE: 公開済
+  category:
+    $ref: ./article_category.v1.yaml
+required:
+  - id
+  - created_at
+  - updated_at
+  - created_admin_id
+  - updated_admin_id
+  - title
+  - body
+  - tags
+  - published_start_at
+  - published_end_at
+  - is_published
+  - category

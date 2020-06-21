@@ -1,6 +1,6 @@
 title: QA
 type: object
-description: QA Model
+description: よくある質問
 x-tags:
   - model
 properties:

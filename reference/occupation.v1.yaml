@@ -1,6 +1,6 @@
 title: Occupation
 type: object
-description: Occupation Model
+description: 職種
 properties:
   category_id:
     type: number

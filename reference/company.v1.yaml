@@ -1,0 +1,62 @@
+title: Company
+type: object
+description: 企業情報
+properties:
+  id:
+    type: number
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+  name:
+    type: string
+  description:
+    type: string
+  occupation_ids:
+    type: array
+    items:
+      $ref: ./occupation.v1.yaml
+  address:
+    $ref: ./adress.v1.yaml
+  area_description:
+    type: string
+  ceo_name:
+    type: string
+  establishment_date:
+    type: string
+    format: date
+  net_sales:
+    type: string
+  capital:
+    type: string
+  employees:
+    type: string
+  official_url:
+    type: string
+  tel:
+    type: string
+  email:
+    type: string
+    format: email
+  logo:
+    $ref: ./file.v1.yaml
+required:
+  - id
+  - created_at
+  - updated_at
+  - name
+  - description
+  - occupation_ids
+  - address
+  - area_description
+  - ceo_name
+  - establishment_date
+  - net_sales
+  - capital
+  - employees
+  - official_url
+  - tel
+  - email
+  - logo

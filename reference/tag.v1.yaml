@@ -1,0 +1,13 @@
+title: tag
+type: object
+description: タグ
+x-tags:
+  - model
+properties:
+  id:
+    type: number
+  name:
+    type: string
+required:
+  - id
+  - name

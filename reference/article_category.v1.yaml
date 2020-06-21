@@ -1,0 +1,13 @@
+title: Article Category
+type: object
+properties:
+  id:
+    type: number
+  name:
+    type: string
+required:
+  - id
+  - name
+x-tags:
+  - model
+description: 記事カテゴリ

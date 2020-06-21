@@ -28,6 +28,6 @@ required:
   - original_url
   - created_at
   - updated_at
-description: File Model
+description: ファイル
 x-tags:
   - model

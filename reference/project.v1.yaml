@@ -1,0 +1,115 @@
+title: Project
+type: object
+description: 案件
+properties:
+  id:
+    type: number
+  name:
+    type: string
+  company:
+    $ref: ./company.v1.yaml
+  created_at:
+    type: string
+  updated_at:
+    type: string
+    format: date-time
+  published_status:
+    type: boolean
+  publish_start_at:
+    type: string
+  publish_end_at:
+    type: string
+  occupation:
+    $ref: ''
+  employment_type:
+    type: number
+  title:
+    type: string
+  description:
+    type: string
+  address:
+    $ref: ./adress.v1.yaml
+  work_location_description:
+    type:
+      - string
+      - 'null'
+  will_transfer:
+    type: boolean
+    description: |-
+      FALSE: なし
+      TRUE: あり
+  age_from:
+    type: number
+  age_to:
+    type: number
+  monthly_income_from:
+    type: number
+  monthly_income_to:
+    type: number
+  income_descrioption:
+    type: string
+  can_remote_work:
+    type: boolean
+  position:
+    type: string
+  working_time_start:
+    type:
+      - string
+      - 'null'
+    format: date-time
+  working_time_end:
+    type:
+      - string
+      - 'null'
+    format: time
+  working_time_description:
+    type:
+      - string
+      - 'null'
+  annual_holiday:
+    type:
+      - string
+      - 'null'
+  benefit_description:
+    type:
+      - string
+      - 'null'
+  has_probation:
+    type: boolean
+    description: |-
+      FALSE: なし
+      TRUE: あり
+  probation_description:
+    type:
+      - string
+      - 'null'
+required:
+  - id
+  - name
+  - company
+  - created_at
+  - updated_at
+  - published_status
+  - publish_start_at
+  - publish_end_at
+  - occupation
+  - employment_type
+  - title
+  - description
+  - address
+  - work_location_description
+  - will_transfer
+  - age_from
+  - age_to
+  - monthly_income_from
+  - monthly_income_to
+  - income_descrioption
+  - can_remote_work
+  - position
+  - working_time_start
+  - working_time_end
+  - working_time_description
+  - annual_holiday
+  - benefit_description
+  - has_probation
+  - probation_description
