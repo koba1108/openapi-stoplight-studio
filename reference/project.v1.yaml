@@ -1,6 +1,8 @@
 title: Project
 type: object
 description: 案件
+x-tags:
+  - model
 properties:
   id:
     type: number
@@ -32,7 +34,7 @@ properties:
     format: date-time
     description: 公開終了日時
   occupation:
-    $ref: ''
+    $ref: ./occupation.v1.yaml
   employment_type:
     type: number
     description: |-
@@ -147,5 +149,3 @@ required:
   - benefit_description
   - has_probation
   - probation_description
-x-tags:
-  - model
