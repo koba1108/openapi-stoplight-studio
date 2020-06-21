@@ -1,0 +1,29 @@
+title: Offer
+type: object
+description: オファー
+properties:
+  id:
+    type: number
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+  project:
+    $ref: ./project.v1.yaml
+  type:
+    type: number
+    description: |-
+      1. 応募（ユーザー => 企業）
+      2. オファー（企業 => ユーザー）
+  status:
+    type: number
+    description: |-
+      1. 回答待ち
+      2. マッチング
+      3. お見送り
+required:
+  - id
+  - created_at
+  - updated_at

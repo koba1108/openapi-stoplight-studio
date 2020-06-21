@@ -15,3 +15,5 @@ required:
   - hasPrevious
   - hasNext
 description: ページネーション（カーソル方式）
+x-tags:
+  - model

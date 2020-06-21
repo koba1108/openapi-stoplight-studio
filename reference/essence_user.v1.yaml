@@ -34,8 +34,12 @@ paths:
       tags:
         - user
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ./user.v1.yaml
       operationId: put-users-me
       description: 会員登録を行う
     post:
@@ -45,6 +49,10 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./user.v1.yaml
       operationId: post-users-me
       description: 自分のプロフィール情報を更新する
     delete:
@@ -52,8 +60,8 @@ paths:
       tags:
         - user
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
       operationId: delete-users-me
       description: 退会処理を行う
     parameters: []
@@ -111,6 +119,20 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  offers:
+                    type: array
+                    items:
+                      $ref: ./offer.v1.yaml
+                  cursor:
+                    $ref: ./cursor.v1.yaml
+                required:
+                  - offers
+                  - cursor
       operationId: get-offers
       description: |-
         企業から受けたオファーを取得する
@@ -137,7 +159,7 @@ paths:
         - schema:
             type: number
           in: query
-          name: offset
+          name: cursor
           description: 取得開始位置
     parameters:
       - schema:
@@ -145,7 +167,7 @@ paths:
         name: offer_id
         in: path
         required: true
-  '/offers/{project_id}/apply':
+  '/offers/{project_id}':
     parameters:
       - schema:
           type: string
@@ -154,42 +176,75 @@ paths:
         required: true
     put:
       summary: 応募API
-      operationId: put-offers-project_id-apply
+      operationId: put-offers-project_id
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  project_id:
+                    type: number
       description: 案件へ応募する
       tags:
         - offer
-  '/offers/{project_id}/skip':
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                comment:
+                  type: string
+  '/offers/{offer_id}/skip':
     parameters:
       - schema:
           type: string
-        name: project_id
+        name: offer_id
         in: path
         required: true
     post:
       summary: オファーお見送りAPI
-      operationId: post-offers-project_id-skip
+      operationId: post-offers-offer_id-skip
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  offer_id:
+                    type: number
+                required:
+                  - offer_id
       description: 企業から受けたオファーを見送る
       tags:
         - offer
-  '/offers/{project_id}/accept':
+  '/offers/{offer_id}/accept':
     parameters:
       - schema:
           type: string
-        name: project_id
+        name: offer_id
         in: path
         required: true
     post:
       summary: オファー受け入れAPI
-      operationId: post-offers-project_id-accept
+      operationId: post-offers-offer_id-accept
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  offer_id:
+                    type: number
+                required:
+                  - offer_id
       description: 企業から受けたオファーを受け入れる
       tags:
         - offer
@@ -207,8 +262,30 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notifications:
+                    type: array
+                    items:
+                      $ref: ./notification.v1.yaml
+                  cursor:
+                    $ref: ./cursor.v1.yaml
       operationId: get-notifications
       description: 管理者からのお知らせを取得する
+      parameters:
+        - schema:
+            type: number
+          in: query
+          name: cursor
+          description: カーソル
+        - schema:
+            type: number
+          in: query
+          name: limit
+          description: 取得件数
   /password_reset:
     post:
       summary: パスワード再設定API
@@ -280,17 +357,46 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  messages:
+                    type: array
+                    items:
+                      $ref: ./message.v1.yaml
+                  cursor:
+                    $ref: ./cursor.v1.yaml
+                required:
+                  - messages
+                  - cursor
       operationId: get-user-messages-company_id
       description: |-
         企業とのメッセージを取得する
 
         「もっと見る」用にページング機能付ける
+      parameters:
+        - schema:
+            type: number
+          in: query
+          name: cursor
+          description: カーソル
+        - schema:
+            type: number
+          in: query
+          name: limit
+          description: 取得件数
     put:
       summary: メッセージ登録API
       operationId: put-user-messages-company_id
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ./message.v1.yaml
       description: |-
         企業へメッセージを送信する
 
@@ -299,6 +405,22 @@ paths:
         マッチングしてない企業IDを指定したらValidationエラー
       tags:
         - message
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  description: 本文
+                file:
+                  type: string
+                  format: binary
+                  description: 添付ファイル
+              required:
+                - text
+        description: ''
   '/favorites/projects/{project_id}':
     parameters:
       - schema:
@@ -390,8 +512,8 @@ paths:
       summary: 案件情報更新通知登録API
       operationId: put-user-projects-project_id-subscribe
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
       description: 案件の情報更新通知の登録ができる
       tags:
         - project
@@ -399,8 +521,8 @@ paths:
       summary: 案件情報更新通知削除API
       operationId: delete-user-projects-project_id-subscribe
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
       description: 案件の情報更新通知の削除ができる
       tags:
         - project
@@ -418,8 +540,38 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  projects:
+                    type: array
+                    items:
+                      $ref: ./project.v1.yaml
+                  cursor:
+                    $ref: ./cursor.v1.yaml
+                required:
+                  - projects
+                  - cursor
       operationId: get-user-projects-project_id
       description: 案件を検索する
+      parameters:
+        - schema:
+            type: number
+          in: query
+          name: cursor
+          description: カーソル
+        - schema:
+            type: number
+          in: query
+          name: limit
+          description: 取得件数
+        - schema:
+            type: string
+          in: query
+          name: 'todo: search option'
+          description: 'todo: その他の検索条件'
   '/favorites/companies/{company_id}':
     parameters:
       - schema:
@@ -683,6 +835,22 @@ paths:
                   - cursor
       operationId: get-user-inquiries
       description: 問い合わせを取得する
+      parameters:
+        - schema:
+            type: number
+          in: query
+          name: cursor
+          description: カーソル
+        - schema:
+            type: number
+          in: query
+          name: limit
+          description: 取得件数
+        - schema:
+            type: string
+          in: query
+          name: keyword
+          description: キーワード
     put:
       summary: 問い合わせ登録API
       operationId: put-user-inquiries
@@ -696,6 +864,20 @@ paths:
       description: 問い合わせの登録をする
       tags:
         - inquiry
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                file:
+                  type:
+                    - string
+                    - 'null'
+                  format: binary
+        description: 問い合わせの登録をする
     parameters: []
   '/companies/{company_id}':
     parameters:
