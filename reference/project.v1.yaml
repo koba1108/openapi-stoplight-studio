@@ -147,3 +147,5 @@ required:
   - benefit_description
   - has_probation
   - probation_description
+x-tags:
+  - model

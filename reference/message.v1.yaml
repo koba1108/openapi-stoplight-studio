@@ -1,0 +1,40 @@
+title: Message
+type: object
+x-tags:
+  - model
+description: メッセージ
+properties:
+  id:
+    type: number
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+  sent_by:
+    type: object
+    description: 送信元
+    properties:
+      type:
+        type: number
+        description: |-
+          1. ユーザー
+          2. 企業
+          3. 管理者
+      id:
+        type: number
+        description: ID
+      name:
+        type: string
+        description: 名前
+  file:
+    $ref: ./file.v1.yaml
+  text:
+    type: string
+required:
+  - id
+  - created_at
+  - updated_at
+  - sent_by
+  - text

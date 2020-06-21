@@ -671,14 +671,28 @@ paths:
             application/json:
               schema:
                 type: object
+                properties:
+                  messages:
+                    type: array
+                    items:
+                      $ref: ./message.v1.yaml
+                  cursor:
+                    $ref: ./cursor.v1.yaml
+                required:
+                  - messages
+                  - cursor
       operationId: get-user-inquiries
       description: 問い合わせを取得する
     put:
       summary: 問い合わせ登録API
       operationId: put-user-inquiries
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ./message.v1.yaml
       description: 問い合わせの登録をする
       tags:
         - inquiry

@@ -8,3 +8,5 @@ properties:
     type: number
   total:
     type: number
+x-tags:
+  - model

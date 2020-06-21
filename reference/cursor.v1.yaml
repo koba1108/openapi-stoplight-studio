@@ -1,0 +1,17 @@
+title: Cursor
+type: object
+properties:
+  start:
+    type: number
+  end:
+    type: number
+  hasPrevious:
+    type: boolean
+  hasNext:
+    type: boolean
+required:
+  - start
+  - end
+  - hasPrevious
+  - hasNext
+description: ページネーション（カーソル方式）

@@ -60,3 +60,5 @@ required:
   - tel
   - email
   - logo
+x-tags:
+  - model
