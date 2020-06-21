@@ -316,12 +316,40 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./project.v1.yaml
+                type: object
+                properties:
+                  projects:
+                    type: array
+                    items:
+                      $ref: ./project.v1.yaml
+                  pagination:
+                    $ref: ./pagination.v1.yaml
+                required:
+                  - projects
               examples: {}
       operationId: get-user-favorites-projects-project_id
       description: お気に入り案件を取得する
+      parameters:
+        - schema:
+            type: number
+          in: query
+          name: limit
+          description: 取得件数
+        - schema:
+            type: number
+          in: query
+          name: offset
+          description: 取得開始位置
+        - schema:
+            type: string
+          in: query
+          name: order_by
+          description: |-
+            ソート順
+
+            1. 作成日時
+            2. 更新日時
+            3. お気に入り登録日時
     put:
       summary: お気に入り案件登録API
       operationId: put-user-favorites-projects-project_id
@@ -406,14 +434,53 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  companies:
+                    type: array
+                    items:
+                      $ref: ''
+                  pagination:
+                    $ref: ./pagination.v1.yaml
       operationId: get-user-favorites-companies-company_id
       description: お気に入り企業を取得する
+      parameters:
+        - schema:
+            type: number
+          in: query
+          name: limit
+          description: 取得件数
+        - schema:
+            type: number
+          in: query
+          name: offset
+          description: 取得開始位置
+        - schema:
+            type: string
+          in: query
+          name: order_by
+          description: |-
+            ソート順
+
+            1. 作成日時
+            2. 更新日時
+            3. お気に入り登録日時
     put:
       summary: お気に入り企業登録API
       operationId: put-user-favorites-companies-company_id
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  company_id:
+                    type: number
       description: お気に入り企業を登録する
       tags:
         - company
@@ -421,8 +488,8 @@ paths:
       summary: お気に入り企業削除API
       operationId: delete-user-favorites-companies-company_id
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
       description: お気に入り企業を削除する
       tags:
         - company
@@ -481,12 +548,8 @@ paths:
                     type: array
                     items:
                       $ref: ./article.v1.yaml
-                  total:
-                    type: number
-                  offset:
-                    type: number
-                  limit:
-                    type: number
+                  pagination:
+                    $ref: ./pagination.v1.yaml
       operationId: get-user-articles-article_id
       description: |-
         記事の情報を取得する

@@ -6,6 +6,7 @@ properties:
     type: number
   name:
     type: string
+    description: 案件名
   company:
     $ref: ./company.v1.yaml
   created_at:
@@ -15,74 +16,108 @@ properties:
     format: date-time
   published_status:
     type: boolean
+    description: |-
+      公開状況
+
+      FALSE: 非公開
+      TRUE: 公開
   publish_start_at:
     type: string
+    format: date-time
+    description: 公開開始日時
   publish_end_at:
-    type: string
+    type:
+      - string
+      - 'null'
+    format: date-time
+    description: 公開終了日時
   occupation:
     $ref: ''
   employment_type:
     type: number
-  title:
-    type: string
+    description: |-
+      1. 正社員
+      2. 業務委託
+      3. プロボノ
   description:
     type: string
+    description: 案件説明
   address:
     $ref: ./adress.v1.yaml
   work_location_description:
     type:
       - string
       - 'null'
+    description: 勤務地_詳細
   will_transfer:
     type: boolean
     description: |-
+      転勤の有無
+
       FALSE: なし
       TRUE: あり
   age_from:
     type: number
+    description: 年齢_下限
   age_to:
     type: number
+    description: 年齢_上限
   monthly_income_from:
     type: number
+    format: double
+    description: 月収_下限
   monthly_income_to:
     type: number
+    format: double
+    description: 月収_上限
   income_descrioption:
     type: string
+    description: 給与_詳細
   can_remote_work:
     type: boolean
+    description: リモートワークの可否
   position:
     type: string
+    description: ポジション
   working_time_start:
     type:
       - string
       - 'null'
     format: date-time
+    description: 勤務開始時間
   working_time_end:
     type:
       - string
       - 'null'
     format: time
+    description: 勤務終了時間
   working_time_description:
     type:
       - string
       - 'null'
+    description: 勤務時間_詳細
   annual_holiday:
     type:
       - string
       - 'null'
+    description: 年間休日数
   benefit_description:
     type:
       - string
       - 'null'
+    description: 待遇・福利厚生
   has_probation:
     type: boolean
     description: |-
+      試用期間の有無
+
       FALSE: なし
       TRUE: あり
   probation_description:
     type:
       - string
       - 'null'
+    description: 試用期間_詳細
 required:
   - id
   - name
@@ -94,7 +129,6 @@ required:
   - publish_end_at
   - occupation
   - employment_type
-  - title
   - description
   - address
   - work_location_description

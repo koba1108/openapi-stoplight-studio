@@ -1,0 +1,10 @@
+title: Pagination
+type: object
+description: 'ページネーション（limit, offset）'
+properties:
+  limit:
+    type: number
+  offset:
+    type: number
+  total:
+    type: number
