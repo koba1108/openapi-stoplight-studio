@@ -735,10 +735,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  search_option_id:
-                    type: number
+                $ref: ./search_option.v1.yaml
       description: 検索条件を登録する
       tags:
         - search_option
@@ -746,7 +743,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./search_option.v1.yaml
+              type: object
+              properties:
+                option:
+                  type: string
+                  description: 検索フォームで使うjsonをbase64した値
+                title:
+                  type: string
+              required:
+                - option
+                - title
         description: |-
           日本語が含まれている場合は、btoa() が使えないので、ライブラリを利用する
           例：https://github.com/dankogai/js-base64#readme
@@ -784,18 +790,36 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./search_option.v1.yaml
       description: 検索条件を更新する
       security:
         - Authorization: []
       parameters: []
       tags:
         - search_option
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                option:
+                  type: string
+                  description: 検索フォームで使うjsonをbase64した値
+                title:
+                  type: string
+              required:
+                - option
+                - title
     delete:
       summary: 検索条件削除API
       operationId: delete-user-search_options-search_option_id
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
       description: 検索条件を削除する
       security:
         - Authorization: []
@@ -825,6 +849,10 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./notification_setting.v1.yaml
       operationId: get-user-settings-notifications
       description: 通知設定を取得する
     post:
@@ -833,9 +861,19 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./notification_setting.v1.yaml
+              examples: {}
       description: 通知設定を変更する
       tags:
         - setting
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./notification_setting.v1.yaml
     parameters: []
   /inquiries:
     get:

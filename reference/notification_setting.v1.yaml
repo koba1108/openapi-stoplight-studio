@@ -1,0 +1,16 @@
+title: notification_setting
+type: object
+properties:
+  notification:
+    type: boolean
+  offer:
+    type: boolean
+  match:
+    type: boolean
+  message:
+    type: boolean
+required:
+  - notification
+  - offer
+  - match
+  - message
