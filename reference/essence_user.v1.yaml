@@ -784,6 +784,17 @@ paths:
                     $ref: ./pagination.v1.yaml
       operationId: get-user-search_options-search_option_id
       description: 検索条件を取得する
+      parameters:
+        - schema:
+            type: number
+          in: query
+          name: limit
+          description: 取得件数
+        - schema:
+            type: number
+          in: query
+          name: offset
+          description: 取得開始位置
     post:
       summary: 検索条件更新API
       operationId: post-user-search_options-search_option_id
