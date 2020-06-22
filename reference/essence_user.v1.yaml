@@ -732,9 +732,24 @@ paths:
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  search_option_id:
+                    type: number
       description: 検索条件を登録する
       tags:
         - search_option
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./search_option.v1.yaml
+        description: |-
+          日本語が含まれている場合は、btoa() が使えないので、ライブラリを利用する
+          例：https://github.com/dankogai/js-base64#readme
     parameters: []
   '/search_options/{search_option_id}':
     parameters:
@@ -750,6 +765,17 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  search_options:
+                    type: array
+                    items:
+                      $ref: ./search_option.v1.yaml
+                  pagination:
+                    $ref: ./pagination.v1.yaml
       operationId: get-user-search_options-search_option_id
       description: 検索条件を取得する
     post:

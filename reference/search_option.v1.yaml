@@ -1,0 +1,23 @@
+title: Search Option
+type: object
+properties:
+  id:
+    type: number
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+  title:
+    type: string
+  option:
+    type: string
+    description: jsonをbase64した値を返す
+required:
+  - id
+  - created_at
+  - updated_at
+  - title
+  - option
+description: 検索条件
