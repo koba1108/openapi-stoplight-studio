@@ -14,3 +14,5 @@ required:
   - offer
   - match
   - message
+x-tags:
+  - model

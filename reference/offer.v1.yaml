@@ -27,3 +27,5 @@ required:
   - id
   - created_at
   - updated_at
+x-tags:
+  - model

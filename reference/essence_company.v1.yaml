@@ -1,0 +1,574 @@
+openapi: 3.0.0
+info:
+  title: essence_company
+  version: '1.0'
+  contact:
+    name: ykoba
+  description: This is Essence Company API Document.
+servers:
+  - url: 'http://localhost:3000/company'
+    description: local
+  - url: 'https://api.dev-domain/company'
+    description: development
+  - url: 'https://api.prod-domain/company'
+    description: production
+paths:
+  '/offers/{offer_id}':
+    parameters:
+      - schema:
+          type: string
+        name: offer_id
+        in: path
+    get:
+      summary: オファー取得API
+      tags:
+        - offer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  offers:
+                    type: array
+                    items:
+                      $ref: ./offer.v1.yaml
+                  pagination:
+                    $ref: ./pagination.v1.yaml
+                required:
+                  - offers
+                  - pagination
+      operationId: get-offers-offer_id
+      description: |-
+        下記で条件指定できる
+        1. ID指定（URLパスで指定）
+        2. 応募済
+        3. 見送り済
+        4. マッチング済
+      parameters:
+        - schema:
+            type: number
+          in: query
+          name: limit
+          description: 取得件数
+        - schema:
+            type: number
+          in: query
+          name: offset
+          description: 取得開始位置
+  '/offers/{user_id}':
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+    put:
+      summary: オファー送信API
+      operationId: put-offers-user_id
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ./offer.v1.yaml
+      description: オファーを送信する
+      tags:
+        - offer
+  '/offers/{offer_id}/accept':
+    parameters:
+      - schema:
+          type: string
+        name: offer_id
+        in: path
+        required: true
+    post:
+      summary: 応募承認API
+      operationId: post-offers-offer_id-acceptt
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./offer.v1.yaml
+      description: ユーザからの応募を承認する
+      tags:
+        - offer
+  '/offers/{offer_id}/skip':
+    parameters:
+      - schema:
+          type: string
+        name: offer_id
+        in: path
+        required: true
+    post:
+      summary: 応募お見送りAPI
+      operationId: post-offers-offer_id-skip
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./offer.v1.yaml
+      description: ユーザからの応募を見送る
+      tags:
+        - offer
+  '/favorites/users/{user_id}':
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+    get:
+      summary: お気に入りユーザ取得API
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: ./user.v1.yaml
+                  pagination:
+                    $ref: ./pagination.v1.yaml
+                required:
+                  - users
+                  - pagination
+      operationId: get-favorites-users-user_id
+      description: お気に入りユーザを取得する
+      parameters:
+        - schema:
+            type: number
+          in: query
+          name: limit
+          description: 取得件数
+        - schema:
+            type: number
+          in: query
+          name: offset
+          description: 取得開始位置
+    put:
+      summary: お気に入りユーザ登録API
+      operationId: put-favorites-users-user_id
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: number
+      description: ユーザをお気に入り登録する
+      tags:
+        - user
+    delete:
+      summary: お気に入りユーザ削除API
+      operationId: delete-favorites-users-user_id
+      responses:
+        '204':
+          description: No Content
+      description: ユーザをお気に入りから削除する
+      tags:
+        - user
+  '/notifications/{notificaiton_id}':
+    parameters:
+      - schema:
+          type: string
+        name: notificaiton_id
+        in: path
+    get:
+      summary: お知らせ取得API
+      tags:
+        - notification
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notifications:
+                    type: array
+                    items:
+                      $ref: ./notification.v1.yaml
+                  pagination:
+                    $ref: ./pagination.v1.yaml
+                required:
+                  - notifications
+                  - pagination
+      operationId: get-notifications-notificaiton_id
+      description: |-
+        管理者からのお知らせを取得する
+
+        下記で条件指定できる
+        1. ID指定（URLパスで指定）
+      parameters:
+        - schema:
+            type: number
+          in: query
+          name: limit
+          description: 取得件数
+        - schema:
+            type: number
+          in: query
+          name: offset
+          description: 取得開始位置
+  /me:
+    get:
+      summary: プロフィール取得API
+      tags:
+        - company_user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./company_user.v1.yaml
+      operationId: get-me
+      description: 自分のプロフィール情報を取得する
+    post:
+      summary: プロフィール更新API
+      operationId: post-me
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./company_user.v1.yaml
+              examples: {}
+      description: 自分のプロフィール情報を更新する
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+                - name
+      tags:
+        - company_user
+  '/users/{user_id}':
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+    get:
+      summary: ユーザ検索API
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: ./user.v1.yaml
+                  pagination:
+                    $ref: ./pagination.v1.yaml
+                required:
+                  - users
+                  - pagination
+      operationId: get-users-user_id
+      description: |-
+        ユーザ情報を取得する
+
+        下記で条件指定できる
+        1. ID指定（URLパスで指定）
+        2. フリーワード
+        ※ UIに合わせて増やす
+      parameters:
+        - schema:
+            type: number
+          in: query
+          name: limit
+          description: 取得件数
+        - schema:
+            type: number
+          in: query
+          name: offset
+          description: 取得開始位置
+        - schema:
+            type: string
+          in: query
+          name: keyword
+          description: フリーワード
+  '/search_options/{search_option_id}':
+    parameters:
+      - schema:
+          type: string
+        name: search_option_id
+        in: path
+    get:
+      summary: ユーザ検索条件取得API
+      tags:
+        - search_option
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  options:
+                    type: array
+                    items:
+                      $ref: ./search_option.v1.yaml
+                  pagination:
+                    $ref: ./pagination.v1.yaml
+                required:
+                  - options
+                  - pagination
+      operationId: get-search_options-search_option_id
+      description: ユーザの検索条件を取得できる
+      parameters:
+        - schema:
+            type: number
+          in: query
+          name: limit
+          description: 取得件数
+        - schema:
+            type: number
+          in: query
+          name: offset
+          description: 取得開始位置
+    delete:
+      summary: ユーザ検索条件削除API
+      operationId: delete-search_options-search_option_id
+      responses:
+        '204':
+          description: No Content
+      description: ユーザの検索条件を削除できる
+      tags:
+        - search_option
+    post:
+      summary: ユーザ検索条件更新API
+      operationId: post-search_options-search_option_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./search_option.v1.yaml
+      description: ユーザの検索条件を更新できる
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                option:
+                  type: string
+                  description: 検索フォームで使うjsonをbase64エンコードした値
+              required:
+                - name
+                - option
+      tags:
+        - search_option
+  /search_options:
+    put:
+      summary: ユーザ検索条件登録API
+      operationId: put-search_options
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ./search_option.v1.yaml
+      description: ユーザの検索条件を登録できる
+      tags:
+        - search_option
+  '/users/{user_id}/subscribe':
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+    put:
+      summary: ユーザ情報更新通知登録API
+      operationId: put-users-user_id-subscribe
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: number
+      tags:
+        - user
+      description: ユーザの情報更新通知の登録ができる
+    delete:
+      summary: ユーザ情報更新通知削除API
+      operationId: delete-users-user_id-subscribe
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - user
+      description: ユーザの情報更新通知の削除ができる
+  '/qa/{qa_id}':
+    get:
+      summary: よくある質問取得API
+      tags:
+        - qa
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  qa:
+                    type: array
+                    items:
+                      $ref: ./qa.v1.yaml
+      operationId: get-qa
+      description: よくある質問を取得する
+      parameters: []
+    parameters:
+      - schema:
+          type: string
+        name: qa_id
+        in: path
+        required: true
+  /login:
+    post:
+      summary: ログインAPI
+      operationId: post-login
+      responses:
+        '200':
+          description: OK
+      description: ログインする
+  /logout:
+    post:
+      summary: ログアウトAPI
+      operationId: post-logout
+      responses:
+        '200':
+          description: OK
+      description: ログアウトする
+  '/projects/{project_id}':
+    parameters:
+      - schema:
+          type: string
+        name: project_id
+        in: path
+        required: true
+    get:
+      summary: 案件検索API
+      tags:
+        - project
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  projects:
+                    type: array
+                    items:
+                      $ref: ./project.v1.yaml
+                  '':
+                    $ref: ./pagination.v1.yaml
+      operationId: get-projects-project_id
+      description: 企業の案件情報を取得する
+      parameters:
+        - schema:
+            type: number
+          in: query
+          name: limit
+          description: 取得件数
+        - schema:
+            type: number
+          in: query
+          name: offset
+          description: 取得開始位置
+    post:
+      summary: 案件更新API
+      operationId: post-projects-project_id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./project.v1.yaml
+      description: 案件情報を更新する
+      tags:
+        - project
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./project.v1.yaml
+    delete:
+      summary: 案件削除API
+      operationId: delete-projects-project_id
+      responses:
+        '204':
+          description: No Content
+      description: 案件を削除する
+      tags:
+        - project
+  /projects:
+    put:
+      summary: 案件登録API
+      operationId: put-projects
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./project.v1.yaml
+      description: 案件情報を登録する
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./project.v1.yaml
+      tags:
+        - project
+components:
+  schemas: {}
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+security:
+  - undefined: []

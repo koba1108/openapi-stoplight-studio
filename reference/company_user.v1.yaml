@@ -1,6 +1,6 @@
-title: Search Option
+title: Company User
 type: object
-description: 検索条件
+description: 企業担当者
 x-tags:
   - model
 properties:
@@ -14,12 +14,14 @@ properties:
     format: date-time
   name:
     type: string
-  option:
+  company:
+    $ref: ./company.v1.yaml
+  email:
     type: string
-    description: jsonをbase64した値を返す
+    format: email
+    description: 取得元がユーザの場合はemailはなし
 required:
   - id
   - created_at
   - updated_at
   - name
-  - option

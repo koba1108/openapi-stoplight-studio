@@ -76,12 +76,16 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./qa.v1.yaml
+                type: object
+                properties:
+                  qa:
+                    type: array
+                    items:
+                      $ref: ./qa.v1.yaml
               examples: {}
       operationId: get-qa
       description: よくある質問を取得する
+      parameters: []
     parameters:
       - schema:
           type: string
@@ -820,11 +824,11 @@ paths:
                 option:
                   type: string
                   description: 検索フォームで使うjsonをbase64した値
-                title:
+                name:
                   type: string
               required:
                 - option
-                - title
+                - name
     delete:
       summary: 検索条件削除API
       operationId: delete-user-search_options-search_option_id
