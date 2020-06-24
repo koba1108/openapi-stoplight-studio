@@ -1,6 +1,8 @@
 title: Company
 type: object
 description: 企業情報
+x-tags:
+  - model
 properties:
   id:
     type: number
@@ -19,7 +21,7 @@ properties:
     items:
       $ref: ./occupation.v1.yaml
   address:
-    $ref: ./adress.v1.yaml
+    $ref: ./address.v1.yaml
   area_description:
     type: string
   ceo_name:
@@ -60,5 +62,3 @@ required:
   - tel
   - email
   - logo
-x-tags:
-  - model

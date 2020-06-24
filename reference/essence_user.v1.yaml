@@ -853,6 +853,10 @@ paths:
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ./certificate.v1.yaml
       description: 案件への実績証明書の発行依頼をする
       tags:
         - certificate

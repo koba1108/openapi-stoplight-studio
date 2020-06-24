@@ -1,0 +1,18 @@
+title: Certificate
+type: object
+properties:
+  id:
+    type: number
+  user:
+    $ref: ./user.v1.yaml
+  project:
+    $ref: ./project.v1.yaml
+  file:
+    $ref: ''
+required:
+  - id
+  - user
+  - project
+x-tags:
+  - model
+description: 実績証明書

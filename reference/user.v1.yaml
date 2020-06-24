@@ -163,6 +163,10 @@ properties:
     type: array
     items:
       $ref: ./tag.v1.yaml
+  certificates:
+    type: array
+    items:
+      $ref: ./file.v1.yaml
 required:
   - id
   - created_at
