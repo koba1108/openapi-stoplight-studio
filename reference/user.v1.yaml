@@ -154,7 +154,7 @@ properties:
       JSON型に市区町村コードの配列を入れる
       実装：https://teratail.com/questions/189136
     items:
-      $ref: ./adress.v1.yaml
+      $ref: ./address.v1.yaml
   resume:
     $ref: ./file.v1.yaml
   curriculum_vitae:

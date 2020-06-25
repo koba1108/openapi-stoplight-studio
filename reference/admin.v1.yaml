@@ -1,20 +1,13 @@
-title: Notification
+title: Admin
 type: object
-x-tags:
-  - model
-description: お知らせ
 properties:
   id:
     type: number
-  title:
+  name:
     type: string
-  text:
+  email:
     type: string
-  publish_start_at:
-    type:
-      - string
-      - 'null'
-    format: date-time
+    format: email
   created_at:
     type: string
     format: date-time
@@ -23,8 +16,10 @@ properties:
     format: date-time
 required:
   - id
-  - title
-  - text
-  - publish_start_at
+  - name
+  - email
   - created_at
   - updated_at
+description: 管理者
+x-tags:
+  - model

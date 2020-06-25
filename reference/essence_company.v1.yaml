@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: essence_company
+  title: Essence Company API
   version: '1.0'
   contact:
     name: ykoba
@@ -839,39 +839,39 @@ paths:
       tags:
         - certificate
   /settings/notifications:
-      get:
-        summary: 通知設定取得API
-        tags:
-          - setting
-        responses:
-          '200':
-            description: OK
-            content:
-              application/json:
-                schema:
-                  $ref: ./notification_setting.v1.yaml
-        operationId: get-user-settings-notifications
-        description: 通知設定を取得する
-      post:
-        summary: 通知設定更新API
-        operationId: post-user-settings-notifications
-        responses:
-          '200':
-            description: OK
-            content:
-              application/json:
-                schema:
-                  $ref: ./notification_setting.v1.yaml
-                examples: {}
-        description: 通知設定を変更する
-        tags:
-          - setting
-        requestBody:
+    get:
+      summary: 通知設定取得API
+      tags:
+        - setting
+      responses:
+        '200':
+          description: OK
           content:
             application/json:
               schema:
                 $ref: ./notification_setting.v1.yaml
-      parameters: []
+      operationId: get-user-settings-notifications
+      description: 通知設定を取得する
+    post:
+      summary: 通知設定更新API
+      operationId: post-user-settings-notifications
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./notification_setting.v1.yaml
+              examples: {}
+      description: 通知設定を変更する
+      tags:
+        - setting
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./notification_setting.v1.yaml
+    parameters: []
   /inquiries:
     get:
       summary: 問い合わせ取得API

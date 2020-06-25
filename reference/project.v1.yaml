@@ -45,7 +45,7 @@ properties:
     type: string
     description: 案件説明
   address:
-    $ref: ./adress.v1.yaml
+    $ref: ./address.v1.yaml
   work_location_description:
     type:
       - string
