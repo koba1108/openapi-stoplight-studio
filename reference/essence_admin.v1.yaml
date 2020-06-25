@@ -21,6 +21,8 @@ paths:
         '200':
           description: OK
       description: ログインする
+      tags:
+        - login
   /logout:
     post:
       summary: ログアウトAPI
@@ -29,6 +31,8 @@ paths:
         '200':
           description: OK
       description: ログアウトする
+      tags:
+        - logout
   '/articles/{article_id}':
     parameters:
       - schema:
@@ -38,7 +42,8 @@ paths:
         required: true
     get:
       summary: 記事取得API
-      tags: []
+      tags:
+        - article
       responses:
         '200':
           description: OK
@@ -110,6 +115,8 @@ paths:
                 category:
                   $ref: ./article_category.v1.yaml
       description: 記事を更新します
+      tags:
+        - article
     delete:
       summary: 記事削除API
       operationId: delete-articles-article_id
@@ -117,6 +124,8 @@ paths:
         '204':
           description: No Content
       description: 記事を削除します
+      tags:
+        - article
   /articles:
     put:
       summary: 記事登録API
@@ -485,6 +494,8 @@ paths:
         '204':
           description: No Content
       description: 企業の案件を削除します
+      tags:
+        - project
   '/companies/{company_id}/company_users':
     parameters:
       - schema:

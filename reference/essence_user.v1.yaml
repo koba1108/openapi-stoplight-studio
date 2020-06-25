@@ -971,7 +971,8 @@ paths:
         required: true
     get:
       summary: 企業情報取得API
-      tags: []
+      tags:
+        - company
       responses:
         '200':
           description: OK

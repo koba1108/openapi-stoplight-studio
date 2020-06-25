@@ -58,7 +58,7 @@ paths:
           in: query
           name: offset
           description: 取得開始位置
-  '/offers/{user_id}':
+  '/offers/user/{user_id}':
     parameters:
       - schema:
           type: string
@@ -67,7 +67,7 @@ paths:
         required: true
     put:
       summary: オファー送信API
-      operationId: put-offers-user_id
+      operationId: put-offers-user-user_id
       responses:
         '201':
           description: Created
@@ -183,6 +183,8 @@ paths:
                 required:
                   - user_id
       description: ユーザをお気に入り登録する
+      tags:
+        - user
   '/notifications/{notificaiton_id}':
     parameters:
       - schema:
@@ -472,6 +474,8 @@ paths:
         '200':
           description: OK
       description: ログインする
+      tags:
+        - login
   /logout:
     post:
       summary: ログアウトAPI
@@ -480,6 +484,8 @@ paths:
         '200':
           description: OK
       description: ログアウトする
+      tags:
+        - logout
   '/projects/{project_id}':
     parameters:
       - schema:
@@ -595,6 +601,8 @@ paths:
           application/json:
             schema:
               $ref: ./company.v1.yaml
+      tags:
+        - company
   /company_users:
     put:
       summary: 企業担当者登録API
@@ -690,7 +698,8 @@ paths:
         required: true
     get:
       summary: 記事取得API
-      tags: []
+      tags:
+        - article
       responses:
         '200':
           description: OK
