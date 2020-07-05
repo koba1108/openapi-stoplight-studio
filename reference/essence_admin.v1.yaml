@@ -218,6 +218,18 @@ paths:
           in: query
           name: keyword
           description: フリーワード検索
+        - schema:
+            type: string
+          in: query
+          name: sort_by
+          description: 並び順
+        - schema:
+            type: string
+          in: query
+          name: order_by
+          description: |-
+            asc: 昇順(デフォルト)
+            desc: 降順
     post:
       summary: 企業情報更新API
       operationId: post-companies-company_id
@@ -269,6 +281,7 @@ paths:
                   type: string
                   format: binary
                   description: 画像をbase64エンコードした文字
+        description: ''
       tags:
         - company
     delete:
