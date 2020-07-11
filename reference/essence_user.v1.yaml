@@ -9,8 +9,8 @@ servers:
   - url: 'http://localhost:3000/user'
     description: local
   - description: development
-    url: 'https://api.dev-domain/user'
-  - url: 'https://api.prod-domain/user'
+    url: 'https://api-dot-essence-projects.appspot.com/user'
+  - url: 'https://api-dot-essence-projects.appspot.com/user'
     description: production
 paths:
   /me:

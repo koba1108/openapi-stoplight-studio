@@ -8,9 +8,9 @@ info:
 servers:
   - url: 'http://localhost:3000/company'
     description: local
-  - url: 'https://api.dev-domain/company'
+  - url: 'https://api-dot-essence-projects.appspot.com/company'
     description: development
-  - url: 'https://api.prod-domain/company'
+  - url: 'https://api-dot-essence-projects.appspot.com/company'
     description: production
 paths:
   '/offers/{offer_id}':
