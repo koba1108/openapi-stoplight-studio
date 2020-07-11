@@ -15,9 +15,6 @@ properties:
   updated_at:
     type: string
     format: date-time
-  nickname:
-    type: string
-    description: SNS連携時には、その名前が入る
   first_name:
     type: string
   last_name:
@@ -171,7 +168,6 @@ required:
   - id
   - created_at
   - updated_at
-  - nickname
   - first_name
   - last_name
   - birthday
